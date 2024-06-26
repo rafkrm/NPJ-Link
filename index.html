@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detect In-App Browser or Mac</title>
+    <title>Detect In-App Browser</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,12 +14,12 @@
 
         #arrow {
             display: none;
-            width: 100px;
-            height: 100px;
+            width: 150px;
+            height: 150px;
             position: absolute;
             top: 10px;
             right: 10px;
-            transform: rotate(-45deg);
+            transform: rotate(-60deg);
             animation: moveArrow 1s infinite alternate;
         }
 
@@ -27,7 +27,7 @@
             display: none;
             margin-top: 40%;
             font-size: 24px;
-            color: red;
+            color: black;
         }
 
         @keyframes moveArrow {
@@ -42,15 +42,13 @@
             }
         }
     </style>
-    <script>function isInAppBrowserOrMac() {
+    <script>function isInAppBrowser() {
             const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-            const isInAppBrowser = /tiktok/i.test(userAgent) || /instagram/i.test(userAgent);
-            const isMac = /Macintosh/i.test(userAgent);
-            return isInAppBrowser || isMac;
+            return /tiktok/i.test(userAgent) || /instagram/i.test(userAgent);
         }
 
         window.onload = function () {
-            if (isInAppBrowserOrMac()) {
+            if (isInAppBrowser()) {
                 document.getElementById("arrow").style.display = "block";
                 document.getElementById("instructions").style.display = "block";
             } else {
@@ -60,6 +58,6 @@
 </head>
 <body>
     <img id="arrow" src="arrow.png" alt="Arrow pointing to top right corner">
-    <div id="instructions">SELECT "OPEN IN BROWSER"</div>
+    <div id="instructions">SELECT OPEN IN BROWSER</div>
 </body>
 </html>
