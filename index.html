@@ -3,33 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detect In-App Browser</title>
+    <title>Detect In-App Browser or Mac</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            text-align: center;
+            color: #333;
+        }
+
         #arrow {
             display: none;
-            font-size: 100px;
-            color: red;
+            width: 100px;
+            height: 100px;
             position: absolute;
             top: 10px;
             right: 10px;
-            transform: rotate(45deg);
+            transform: rotate(-45deg);
+            animation: moveArrow 1s infinite alternate;
         }
 
         #instructions {
             display: none;
-            text-align: center;
             margin-top: 40%;
-            font-size: 20px;
+            font-size: 24px;
             color: red;
         }
+
+        @keyframes moveArrow {
+            0% {
+                top: 10px;
+                right: 10px;
+            }
+
+            100% {
+                top: 0px;
+                right: 0px;
+            }
+        }
     </style>
-    <script>function isInAppBrowser() {
+    <script>function isInAppBrowserOrMac() {
             const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-            return /tiktok/i.test(userAgent) || /instagram/i.test(userAgent);
+            const isInAppBrowser = /tiktok/i.test(userAgent) || /instagram/i.test(userAgent);
+            const isMac = /Macintosh/i.test(userAgent);
+            return isInAppBrowser || isMac;
         }
 
         window.onload = function () {
-            if (isInAppBrowser()) {
+            if (isInAppBrowserOrMac()) {
                 document.getElementById("arrow").style.display = "block";
                 document.getElementById("instructions").style.display = "block";
             } else {
@@ -38,7 +59,7 @@
         }</script>
 </head>
 <body>
-    <div id="arrow">➔</div>
-    <div id="instructions">Select the 3 dots and "Open in Browser"</div>
+    <img id="arrow" src="arrow.png" alt="Arrow pointing to top right corner">
+    <div id="instructions">SELECT "OPEN IN BROWSER"</div>
 </body>
 </html>
