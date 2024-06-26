@@ -1,14 +1,44 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2549">
-  <style type="text/css">
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detect In-App Browser</title>
+    <style>
+        #arrow {
+            display: none;
+            font-size: 50px;
+            color: red;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            transform: rotate(45deg);
+        }
+
+        #instructions {
+            display: none;
+            text-align: center;
+            margin-top: 20%;
+            font-size: 20px;
+            color: red;
+        }
+    </style>
+    <script>function isInAppBrowser() {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            return /tiktok/i.test(userAgent) || /instagram/i.test(userAgent);
+        }
+
+        window.onload = function () {
+            if (isInAppBrowser()) {
+                document.getElementById("arrow").style.display = "block";
+                document.getElementById("instructions").style.display = "block";
+            } else {
+                window.location.href = "https://www.instagram.com/rafkrm";
+            }
+        }</script>
 </head>
 <body>
+    <div id="arrow">➔</div>
+    <div id="instructions">Select the 3 dots and "Open in Browser"</div>
 </body>
 </html>
