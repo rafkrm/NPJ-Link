@@ -10,8 +10,8 @@ app.use(bodyParser.json());
 app.use(cors());
 
 let redirectUrls = {
-    iosUrl: '',
-    androidUrl: ''
+    iosUrl: 'https://apps.apple.com/app/obama-run-2024/id1576515186',
+    androidUrl: 'https://play.google.com/store/apps/details?id=com.kramermedia.obamarun'
 };
 
 // Endpoint to get redirect URLs
@@ -22,8 +22,8 @@ app.get('/redirect-urls', (req, res) => {
 // Endpoint to update redirect URLs
 app.post('/update-redirect-urls', (req, res) => {
     const { iosUrl, androidUrl } = req.body;
-    redirectUrls.iosUrl = iosUrl;
-    redirectUrls.androidUrl = androidUrl;
+    redirectUrls.iosUrl = iosUrl || redirectUrls.iosUrl;
+    redirectUrls.androidUrl = androidUrl || redirectUrls.androidUrl;
     res.json({ message: 'Redirect URLs updated successfully' });
 });
 

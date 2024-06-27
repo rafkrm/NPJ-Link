@@ -23,36 +23,43 @@
             fetch('http://localhost:3000/redirect-urls')
                 .then(response => response.json())
                 .then(redirectUrls => {
+                    const iosUrl = redirectUrls.iosUrl || 'https://apps.apple.com/app/obama-run-2024/id1576515186';
+                    const androidUrl = redirectUrls.androidUrl || 'https://play.google.com/store/apps/details?id=com.kramermedia.obamarun';
+
                     // Check for TikTok Browser
                     if (userAgent.includes("BytedanceWebview")) {
                         info = 'TikTok Browser detected.';
-                        document.getElementById("info").textContent = info;
                     } else {
                         // Detect if it is a normal browser and determine the platform
                         if (/android/i.test(userAgent)) {
                             info = 'Normal Browser detected on Android Platform.';
-                            if (redirectUrls.androidUrl) {
-                                window.location.href = redirectUrls.androidUrl;
-                                return;
-                            }
+                            window.location.href = androidUrl;
+                            return;
                         } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
                             info = 'Normal Browser detected on iOS Platform.';
-                            if (redirectUrls.iosUrl) {
-                                window.location.href = redirectUrls.iosUrl;
-                                return;
-                            }
+                            window.location.href = iosUrl;
+                            return;
                         } else {
                             info = 'Normal Browser detected on an unidentified platform.';
-                            if (redirectUrls.iosUrl) {
-                                window.location.href = redirectUrls.iosUrl;
-                                return;
-                            }
+                            window.location.href = iosUrl;
+                            return;
                         }
                     }
+                    document.getElementById("info").textContent = info;
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    document.getElementById("info").textContent = 'Error fetching redirect URLs.';
+                    document.getElementById("info").textContent = 'Error fetching redirect URLs. Redirecting...';
+
+                    const iosUrlFallback = 'https://apps.apple.com/app/obama-run-2024/id1576515186';
+                    const androidUrlFallback = 'https://play.google.com/store/apps/details?id=com.kramermedia.obamarun';
+
+                    // Fallback redirection
+                    if (/android/i.test(userAgent)) {
+                        window.location.href = androidUrlFallback;
+                    } else {
+                        window.location.href = iosUrlFallback;
+                    }
                 });
         }
 
