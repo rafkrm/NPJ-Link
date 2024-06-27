@@ -11,7 +11,7 @@
             top: 20px;
             right: 20px;
             transform: rotate(55deg);
-            width: 50px; /* Set the size of your arrow image */
+            width: 50px; /* Adjust size as needed */
         }
     </style>
 </head>
@@ -21,13 +21,24 @@
     <img id="arrow" src="arrow.png" alt="Red Arrow">
     <script>function detectBrowser() {
             const userAgent = navigator.userAgent;
-            const isTikTokBrowser = userAgent.includes("BytedanceWebview");
-            const browserType = isTikTokBrowser ? 'TikTok Browser' : 'Normal Browser';
+            let browserType;
+            let osType = '';
 
-            document.getElementById("result").textContent = browserType;
-            if (isTikTokBrowser) {
+            if (userAgent.includes("BytedanceWebview")) {
+                browserType = 'TikTok Browser';
                 document.getElementById("arrow").style.display = 'block';
+            } else {
+                browserType = 'Normal Browser';
+                if (/android/i.test(userAgent)) {
+                    osType = ' on Android';
+                } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                    osType = ' on iOS';
+                } else {
+                    osType = ' on an unidentified OS';
+                }
             }
+
+            document.getElementById("result").textContent = browserType + osType;
         }
 
         detectBrowser();</script>
