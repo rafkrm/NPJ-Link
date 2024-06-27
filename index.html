@@ -7,10 +7,11 @@
 </head>
 <body>
     <h1>Browser and OS Detection</h1>
-    <p id="result">Detecting environment...</p>
+    <p id="result"></p>
+    <p id="visibilityStatus"></p> <!-- Element to display visibility status -->
     <script>function detectEnvironment() {
             const userAgent = navigator.userAgent;
-            let environmentText = "";
+            let environmentText = "Detecting environment...";
 
             const isTikTokBrowser = userAgent.includes("BytedanceWebview");
             if (isTikTokBrowser) {
@@ -19,10 +20,8 @@
                 const isiOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
                 const isAndroid = /Android/.test(userAgent);
                 if (isiOS) {
-                    environmentText = 'Redirecting to iOS App...';
                     window.location.href = 'https://apps.apple.com/app/obama-run-2024/id1576515186';
                 } else if (isAndroid) {
-                    environmentText = 'Redirecting to Android App...';
                     window.location.href = 'https://play.google.com/store/apps/details?id=com.kramermedia.obamarun';
                 } else {
                     environmentText = 'Normal Browser on Other Platform';
@@ -32,6 +31,18 @@
             document.getElementById("result").textContent = environmentText;
         }
 
-        detectEnvironment();</script>
+        function handleVisibilityChange() {
+            if (document.visibilityState === 'hidden') {
+                document.getElementById("visibilityStatus").textContent = 'Possible interaction with browser UI detected';
+            } else {
+                document.getElementById("visibilityStatus").textContent = 'Page is visible';
+            }
+        }
+
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+
+        window.onload = function () {
+            detectEnvironment();
+        };</script>
 </body>
 </html>
