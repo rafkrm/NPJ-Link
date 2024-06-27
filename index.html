@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Popup Detection</title>
+    <title>Popup Detection in TikTok Browser</title>
     <style>
         body, html {
             height: 100%;
@@ -14,15 +14,11 @@
             position: relative;
         }
 
-        #redPoint {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 20px;
-            height: 20px;
-            background-color: red;
-            border-radius: 50%;
+        #info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 16px;
         }
 
         #popupAlert {
@@ -36,27 +32,42 @@
             border: 1px solid black;
             padding: 20px;
             border-radius: 10px;
+            z-index: 1000;
         }
     </style>
 </head>
 <body>
-    <div id="redPoint"></div>
-    <div id="popupAlert">POPUP DETECTED!</div>
+    <div id="info"></div>
+    <div id="popupAlert">Popup Detected!</div>
 
-    <script>// Select the target node
-        var target = document.getElementById('redPoint');
+    <script>function detectBrowserDetails() {
+            const userAgent = navigator.userAgent;
+            document.getElementById("info").textContent = 'User Agent: ' + userAgent;
+        }
 
-        // Create an observer instance
-        var observer = new IntersectionObserver(function (entries) {
-            var entry = entries[0];
-            if (!entry.isIntersecting) {
-                document.getElementById('popupAlert').style.display = 'block';
-            } else {
-                document.getElementById('popupAlert').style.display = 'none';
+        // Visibility API to detect when the page is not visible
+        document.addEventListener("visibilitychange", function () {
+            if (document.visibilityState === 'hidden') {
+                document.getElementById("popupAlert").style.display = 'block';
+                document.getElementById("popupAlert").textContent = 'Popup Detected via Visibility Change!';
             }
-        }, { threshold: [0.1] });
+        });
 
-        // Start observing the target
-        observer.observe(target);</script>
+        // Listen for resize events
+        window.addEventListener('resize', function () {
+            document.getElementById("popupAlert").style.display = 'block';
+            document.getElementById("popupAlert").textContent = 'Popup Detected via Resize!';
+        });
+
+        // Play an audio file and detect if it's paused
+        const audio = new Audio('path_to_your_audio_file.mp3');
+        audio.loop = true;
+        audio.play();
+        audio.onpause = function () {
+            document.getElementById("popupAlert").style.display = 'block';
+            document.getElementById("popupAlert").textContent = 'Popup Detected via Audio Pause!';
+        };
+
+        detectBrowserDetails();</script>
 </body>
 </html>
