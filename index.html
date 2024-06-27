@@ -3,85 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detect In-App Browser or Mac</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            font-weight: bold;
-            text-align: center;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            position: relative;
-        }
+    <title>Browser Detection</title>
+    <script>function detectBrowser() {
+            const userAgent = navigator.userAgent;
+            let browserType;
 
-        #arrow {
-            display: none;
-            width: 150px;
-            height: 150px;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            transform: rotate(-60deg);
-            animation: moveArrow 1s infinite alternate;
-        }
-
-        #instructions {
-            display: none;
-            margin-top: 40%;
-            font-size: 24px;
-            color: black;
-        }
-
-        #detector {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 50px;
-            background-color: red;
-        }
-
-        @keyframes moveArrow {
-            0% {
-                top: 10px;
-                right: 10px;
-            }
-
-            100% {
-                top: 0px;
-                right: 0px;
-            }
-        }
-    </style>
-    <script>function isInAppBrowserOrMac() {
-            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-            const isInAppBrowser = /tiktok/i.test(userAgent) || /instagram/i.test(userAgent);
-            const isMac = /Macintosh/i.test(userAgent);
-            return isInAppBrowser || isMac;
-        }
-
-        function isElementVisible(el) {
-            const rect = el.getBoundingClientRect();
-            const viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
-            return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
-        }
-
-        window.onload = function () {
-            const detector = document.getElementById('detector');
-
-            if (isInAppBrowserOrMac() || !isElementVisible(detector)) {
-                document.getElementById("arrow").style.display = "block";
-                document.getElementById("instructions").style.display = "block";
+            if (userAgent.includes("Instagram")) {
+                browserType = "instagram";
+            } else if (userAgent.includes("TikTok")) {
+                browserType = "tiktok";
             } else {
-                window.location.href = "https://apps.apple.com/app/npj-the-game/id6503628207";
+                browserType = "normal";
             }
+
+            document.getElementById("browserType").textContent = browserType;
         }</script>
 </head>
-<body>
-    <img id="arrow" src="arrow.png" alt="Arrow pointing to top right corner">
-    <div id="instructions">SELECT OPEN IN BROWSER</div>
-    <div id="detector"></div>
+<body onload="detectBrowser()">
+    <h1>Browser Type Detection</h1>
+    <p id="browserType"></p>
 </body>
 </html>
