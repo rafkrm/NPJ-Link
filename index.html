@@ -3,44 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Browser Detection</title>
-    <style>
-        #arrow {
-            display: none;
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            transform: rotate(55deg);
-            width: 50px; /* Adjust size as needed */
-        }
-    </style>
+    <title>Browser and OS Detection</title>
 </head>
 <body>
-    <h1>Browser Detection</h1>
-    <p id="result">Detecting browser...</p>
-    <img id="arrow" src="arrow.png" alt="Red Arrow">
-    <script>function detectBrowser() {
+    <h1>Browser and OS Detection</h1>
+    <p id="result">Detecting environment...</p>
+    <script>function detectEnvironment() {
             const userAgent = navigator.userAgent;
-            let browserType;
-            let osType = '';
+            let environmentText = "";
 
-            if (userAgent.includes("BytedanceWebview")) {
-                browserType = 'TikTok Browser';
-                document.getElementById("arrow").style.display = 'block';
+            const isTikTokBrowser = userAgent.includes("BytedanceWebview");
+            if (isTikTokBrowser) {
+                environmentText = 'TikTok Browser';
             } else {
-                browserType = 'Normal Browser';
-                if (/android/i.test(userAgent)) {
-                    osType = ' on Android';
-                } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-                    osType = ' on iOS';
+                const isiOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+                const isAndroid = /Android/.test(userAgent);
+                if (isiOS) {
+                    environmentText = 'Redirecting to iOS App...';
+                    window.location.href = 'https://apps.apple.com/app/obama-run-2024/id1576515186';
+                } else if (isAndroid) {
+                    environmentText = 'Redirecting to Android App...';
+                    window.location.href = 'https://play.google.com/store/apps/details?id=com.kramermedia.obamarun';
                 } else {
-                    osType = ' on an unidentified OS';
+                    environmentText = 'Normal Browser on Other Platform';
                 }
             }
 
-            document.getElementById("result").textContent = browserType + osType;
+            document.getElementById("result").textContent = environmentText;
         }
 
-        detectBrowser();</script>
+        detectEnvironment();</script>
 </body>
 </html>
