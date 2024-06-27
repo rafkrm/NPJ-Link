@@ -8,6 +8,7 @@
         body {
             font-family: Arial, sans-serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -18,6 +19,8 @@
 
         .pulsate {
             animation: pulsate 1.5s infinite;
+            font-weight: bold;
+            font-size: 2em;
         }
 
         @keyframes pulsate {
@@ -35,29 +38,59 @@
         }
 
         .arrow {
-            width: 50px;
-            height: 50px;
+            width: 100px;
+            height: 100px;
             background-image: url('arrow.png'); /* Replace with an actual arrow image URL */
             background-size: contain;
             background-repeat: no-repeat;
             margin: 20px auto 0;
+            transform: rotate(-55deg);
         }
+
+        .platform-buttons button {
+            font-size: 1.5em;
+            margin: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .bottom-black {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 20%;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+            .bottom-black p {
+                color: white;
+                font-size: 1.5em;
+                font-weight: bold;
+            }
     </style>
 </head>
 <body>
     <div id="content">
         <p id="info">Detecting...</p>
     </div>
+    <div id="bottom" class="bottom-black" style="display: none;">
+        <p>TAP OPEN IN BROWSER</p>
+    </div>
 
     <script>function detectBrowserAndPlatform() {
             const userAgent = navigator.userAgent;
             const content = document.getElementById('content');
             const info = document.getElementById('info');
+            const bottom = document.getElementById('bottom');
 
             // TikTok Browser detection
             if (userAgent.includes("BytedanceWebview")) {
-                info.textContent = 'SELECT OPEN IN BROWSER';
+                info.textContent = 'SELECT THREE DOTS';
                 info.classList.add('pulsate');
+                bottom.style.display = 'flex';
 
                 const arrow = document.createElement('div');
                 arrow.classList.add('arrow');
@@ -76,6 +109,12 @@
             } else {
                 // Unidentified platform
                 info.textContent = 'Select your platform:';
+                info.style.fontSize = '2em';
+                info.style.fontWeight = 'bold';
+
+                const buttonContainer = document.createElement('div');
+                buttonContainer.classList.add('platform-buttons');
+
                 const iosButton = document.createElement('button');
                 iosButton.textContent = 'iOS';
                 iosButton.onclick = () => { window.location.href = iosUrl; };
@@ -84,8 +123,10 @@
                 androidButton.textContent = 'Android';
                 androidButton.onclick = () => { window.location.href = androidUrl; };
 
-                content.appendChild(iosButton);
-                content.appendChild(androidButton);
+                buttonContainer.appendChild(iosButton);
+                buttonContainer.appendChild(androidButton);
+
+                content.appendChild(buttonContainer);
             }
         }
 
