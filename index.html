@@ -20,29 +20,30 @@
             const userAgent = navigator.userAgent;
             let info = '';
 
+            // Check for TikTok Browser
+            if (userAgent.includes("BytedanceWebview")) {
+                info = 'TikTok Browser detected.';
+                document.getElementById("info").textContent = info;
+                return;
+            }
+
+            // If not TikTok browser, proceed to fetch URLs
             fetch('http://localhost:3000/redirect-urls')
                 .then(response => response.json())
                 .then(redirectUrls => {
                     const iosUrl = redirectUrls.iosUrl || 'https://apps.apple.com/app/obama-run-2024/id1576515186';
                     const androidUrl = redirectUrls.androidUrl || 'https://play.google.com/store/apps/details?id=com.kramermedia.obamarun';
 
-                    // Check for TikTok Browser
-                    if (userAgent.includes("BytedanceWebview")) {
-                        info = 'TikTok Browser detected.';
-                        document.getElementById("info").textContent = info;
-                        return;
+                    // Detect if it is a normal browser and determine the platform
+                    if (/android/i.test(userAgent)) {
+                        info = 'Normal Browser detected on Android Platform.';
+                        window.location.href = androidUrl;
+                    } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                        info = 'Normal Browser detected on iOS Platform.';
+                        window.location.href = iosUrl;
                     } else {
-                        // Detect if it is a normal browser and determine the platform
-                        if (/android/i.test(userAgent)) {
-                            info = 'Normal Browser detected on Android Platform.';
-                            window.location.href = androidUrl;
-                        } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-                            info = 'Normal Browser detected on iOS Platform.';
-                            window.location.href = iosUrl;
-                        } else {
-                            info = 'Normal Browser detected on an unidentified platform.';
-                            window.location.href = iosUrl;
-                        }
+                        info = 'Normal Browser detected on an unidentified platform.';
+                        window.location.href = iosUrl;
                     }
                 })
                 .catch(error => {
