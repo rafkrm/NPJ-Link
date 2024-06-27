@@ -7,59 +7,86 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
             text-align: center;
+            background-color: #f0f0f0;
+        }
+
+        .pulsate {
+            animation: pulsate 1.5s infinite;
+        }
+
+        @keyframes pulsate {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .arrow {
+            width: 50px;
+            height: 50px;
+            background-image: url('arrow.png'); /* Replace with an actual arrow image URL */
+            background-size: contain;
+            background-repeat: no-repeat;
+            margin: 20px auto 0;
         }
     </style>
 </head>
 <body>
-    <h1>Browser and Platform Detection</h1>
-    <p id="info">Detecting...</p>
+    <div id="content">
+        <p id="info">Detecting...</p>
+    </div>
 
     <script>function detectBrowserAndPlatform() {
             const userAgent = navigator.userAgent;
-            let info = '';
+            const content = document.getElementById('content');
+            const info = document.getElementById('info');
 
-            // Check for TikTok Browser
+            // TikTok Browser detection
             if (userAgent.includes("BytedanceWebview")) {
-                info = 'TikTok Browser detected.';
-                document.getElementById("info").textContent = info;
+                info.textContent = 'SELECT OPEN IN BROWSER';
+                info.classList.add('pulsate');
+
+                const arrow = document.createElement('div');
+                arrow.classList.add('arrow');
+                content.appendChild(arrow);
                 return;
             }
 
-            // If not TikTok browser, proceed to fetch URLs
-            fetch('http://localhost:3000/redirect-urls')
-                .then(response => response.json())
-                .then(redirectUrls => {
-                    const iosUrl = redirectUrls.iosUrl || 'https://apps.apple.com/app/obama-run-2024/id1576515186';
-                    const androidUrl = redirectUrls.androidUrl || 'https://play.google.com/store/apps/details?id=com.kramermedia.obamarun';
+            // Normal browser detection
+            const iosUrl = 'https://apps.apple.com/app/obama-run-2024/id1576515186';
+            const androidUrl = 'https://play.google.com/store/apps/details?id=com.kramermedia.obamarun';
 
-                    // Detect if it is a normal browser and determine the platform
-                    if (/android/i.test(userAgent)) {
-                        info = 'Normal Browser detected on Android Platform.';
-                        window.location.href = androidUrl;
-                    } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-                        info = 'Normal Browser detected on iOS Platform.';
-                        window.location.href = iosUrl;
-                    } else {
-                        info = 'Normal Browser detected on an unidentified platform.';
-                        window.location.href = iosUrl;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    document.getElementById("info").textContent = 'Error fetching redirect URLs. Redirecting...';
+            if (/android/i.test(userAgent)) {
+                window.location.href = androidUrl;
+            } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                window.location.href = iosUrl;
+            } else {
+                // Unidentified platform
+                info.textContent = 'Select your platform:';
+                const iosButton = document.createElement('button');
+                iosButton.textContent = 'iOS';
+                iosButton.onclick = () => { window.location.href = iosUrl; };
 
-                    const iosUrlFallback = 'https://apps.apple.com/app/obama-run-2024/id1576515186';
-                    const androidUrlFallback = 'https://play.google.com/store/apps/details?id=com.kramermedia.obamarun';
+                const androidButton = document.createElement('button');
+                androidButton.textContent = 'Android';
+                androidButton.onclick = () => { window.location.href = androidUrl; };
 
-                    // Fallback redirection
-                    if (/android/i.test(userAgent)) {
-                        window.location.href = androidUrlFallback;
-                    } else {
-                        window.location.href = iosUrlFallback;
-                    }
-                });
+                content.appendChild(iosButton);
+                content.appendChild(androidButton);
+            }
         }
 
         detectBrowserAndPlatform();</script>
