@@ -3,53 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comprehensive Browser Detection</title>
-</head>
-<body>
-    <h1>Comprehensive Browser Detection</h1>
-    <p><strong>User Agent:</strong> <span id="userAgent"></span></p>
-    <p><strong>Browser Details:</strong> <span id="browserDetails"></span></p>
-    <p><strong>JavaScript Limitations:</strong> <span id="jsLimitations"></span></p>
-    <script>function detectBrowserDetails() {
-            const userAgent = navigator.userAgent;
-            document.getElementById("userAgent").textContent = userAgent;
-
-            // Detect browser type and platform
-            let browserDetails = '';
-            let platform = '';
-
-            // TikTok specific detection
-            if (userAgent.includes("BytedanceWebview")) {
-                browserDetails += 'TikTok Browser detected. ';
-                const tikTokVersionMatch = userAgent.match(/trill_([0-9.]+)/);
-                if (tikTokVersionMatch) {
-                    browserDetails += 'TikTok Version: ' + tikTokVersionMatch[1] + '. ';
-                }
-            } else {
-                browserDetails += 'Normal Browser. ';
-                if (/android/i.test(userAgent)) {
-                    platform = 'Android Platform';
-                } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-                    platform = 'iOS Platform';
-                } else {
-                    platform = 'Unknown Platform';
-                }
-            }
-
-            // Explore JavaScript limitations
-            let jsLimitations = '';
-            try {
-                localStorage.setItem('test', 'testValue');
-                localStorage.removeItem('test');
-                jsLimitations += 'Local storage is enabled. ';
-            } catch (e) {
-                jsLimitations += 'Local storage is disabled or restricted. ';
-            }
-
-            document.getElementById("browserDetails").textContent = browserDetails + platform;
-            document.getElementById("jsLimitations").textContent = jsLimitations;
+    <title>Popup Detection</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
         }
 
-        detectBrowserDetails();</script>
+        #redPoint {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            border-radius: 50%;
+        }
+
+        #popupAlert {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            font-size: 24px;
+            background-color: white;
+            border: 1px solid black;
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="redPoint"></div>
+    <div id="popupAlert">POPUP DETECTED!</div>
+
+    <script>// Select the target node
+        var target = document.getElementById('redPoint');
+
+        // Create an observer instance
+        var observer = new IntersectionObserver(function (entries) {
+            var entry = entries[0];
+            if (!entry.isIntersecting) {
+                document.getElementById('popupAlert').style.display = 'block';
+            } else {
+                document.getElementById('popupAlert').style.display = 'none';
+            }
+        }, { threshold: [0.1] });
+
+        // Start observing the target
+        observer.observe(target);</script>
 </body>
 </html>
