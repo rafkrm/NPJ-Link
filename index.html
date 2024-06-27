@@ -4,11 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Browser and OS Detection</title>
+    <style>
+        .open-in-browser-button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+        }
+    </style>
 </head>
 <body>
     <h1>Browser and OS Detection</h1>
     <p id="result"></p>
-    <p id="visibilityStatus"></p> <!-- Element to display visibility status -->
+    <p id="visibilityStatus"></p>
+    <!-- Button to attempt to open the page in the default browser -->
+    <a href="?" target="_blank" rel="noopener noreferrer" class="open-in-browser-button" onclick="redirectToDefaultBrowser(); return false;">Open in Browser</a>
     <script>function detectEnvironment() {
             const userAgent = navigator.userAgent;
             let environmentText = "Detecting environment...";
@@ -39,8 +51,12 @@
             }
         }
 
-        document.addEventListener('visibilitychange', handleVisibilityChange);
+        function redirectToDefaultBrowser() {
+            // This function constructs a URL that opens this same page in a new tab
+            window.open(window.location.href, '_blank');
+        }
 
+        document.addEventListener('visibilitychange', handleVisibilityChange);
         window.onload = function () {
             detectEnvironment();
         };</script>
