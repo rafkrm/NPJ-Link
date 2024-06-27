@@ -3,25 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TikTok Browser Details</title>
+    <title>Comprehensive Browser Detection</title>
 </head>
 <body>
-    <h1>TikTok Browser Details</h1>
+    <h1>Comprehensive Browser Detection</h1>
     <p><strong>User Agent:</strong> <span id="userAgent"></span></p>
-    <p><strong>TikTok Details:</strong> <span id="tikTokDetails"></span></p>
+    <p><strong>Browser Details:</strong> <span id="browserDetails"></span></p>
     <p><strong>JavaScript Limitations:</strong> <span id="jsLimitations"></span></p>
     <script>function detectBrowserDetails() {
             const userAgent = navigator.userAgent;
             document.getElementById("userAgent").textContent = userAgent;
 
-            // Detect TikTok specific details
-            let tikTokDetails = '';
+            // Detect browser type and platform
+            let browserDetails = '';
+            let platform = '';
+
+            // TikTok specific detection
             if (userAgent.includes("BytedanceWebview")) {
-                tikTokDetails += 'Bytedance WebView detected. ';
-            }
-            const tikTokVersionMatch = userAgent.match(/trill_([0-9.]+)/);
-            if (tikTokVersionMatch) {
-                tikTokDetails += 'TikTok Version: ' + tikTokVersionMatch[1] + '. ';
+                browserDetails += 'TikTok Browser detected. ';
+                const tikTokVersionMatch = userAgent.match(/trill_([0-9.]+)/);
+                if (tikTokVersionMatch) {
+                    browserDetails += 'TikTok Version: ' + tikTokVersionMatch[1] + '. ';
+                }
+            } else {
+                browserDetails += 'Normal Browser. ';
+                if (/android/i.test(userAgent)) {
+                    platform = 'Android Platform';
+                } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                    platform = 'iOS Platform';
+                } else {
+                    platform = 'Unknown Platform';
+                }
             }
 
             // Explore JavaScript limitations
@@ -34,7 +46,7 @@
                 jsLimitations += 'Local storage is disabled or restricted. ';
             }
 
-            document.getElementById("tikTokDetails").textContent = tikTokDetails;
+            document.getElementById("browserDetails").textContent = browserDetails + platform;
             document.getElementById("jsLimitations").textContent = jsLimitations;
         }
 
