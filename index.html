@@ -3,62 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Browser and OS Detection</title>
-    <style>
-        .open-in-browser-button {
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            display: inline-block;
-        }
-    </style>
+    <title>TikTok Browser Details</title>
 </head>
 <body>
-    <h1>Browser and OS Detection</h1>
-    <p id="result"></p>
-    <p id="visibilityStatus"></p>
-    <!-- Button to attempt to open the page in the default browser -->
-    <a href="?" target="_blank" rel="noopener noreferrer" class="open-in-browser-button" onclick="redirectToDefaultBrowser(); return false;">Open in Browser</a>
-    <script>function detectEnvironment() {
+    <h1>TikTok Browser Details</h1>
+    <p><strong>User Agent:</strong> <span id="userAgent"></span></p>
+    <p><strong>TikTok Details:</strong> <span id="tikTokDetails"></span></p>
+    <p><strong>JavaScript Limitations:</strong> <span id="jsLimitations"></span></p>
+    <script>function detectBrowserDetails() {
             const userAgent = navigator.userAgent;
-            let environmentText = "Detecting environment...";
+            document.getElementById("userAgent").textContent = userAgent;
 
-            const isTikTokBrowser = userAgent.includes("BytedanceWebview");
-            if (isTikTokBrowser) {
-                environmentText = 'TikTok Browser';
-            } else {
-                const isiOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
-                const isAndroid = /Android/.test(userAgent);
-                if (isiOS) {
-                    window.location.href = 'https://apps.apple.com/app/obama-run-2024/id1576515186';
-                } else if (isAndroid) {
-                    window.location.href = 'https://play.google.com/store/apps/details?id=com.kramermedia.obamarun';
-                } else {
-                    environmentText = 'Normal Browser on Other Platform';
-                }
+            // Detect TikTok specific details
+            let tikTokDetails = '';
+            if (userAgent.includes("BytedanceWebview")) {
+                tikTokDetails += 'Bytedance WebView detected. ';
+            }
+            const tikTokVersionMatch = userAgent.match(/trill_([0-9.]+)/);
+            if (tikTokVersionMatch) {
+                tikTokDetails += 'TikTok Version: ' + tikTokVersionMatch[1] + '. ';
             }
 
-            document.getElementById("result").textContent = environmentText;
-        }
-
-        function handleVisibilityChange() {
-            if (document.visibilityState === 'hidden') {
-                document.getElementById("visibilityStatus").textContent = 'Possible interaction with browser UI detected';
-            } else {
-                document.getElementById("visibilityStatus").textContent = 'Page is visible';
+            // Explore JavaScript limitations
+            let jsLimitations = '';
+            try {
+                localStorage.setItem('test', 'testValue');
+                localStorage.removeItem('test');
+                jsLimitations += 'Local storage is enabled. ';
+            } catch (e) {
+                jsLimitations += 'Local storage is disabled or restricted. ';
             }
+
+            document.getElementById("tikTokDetails").textContent = tikTokDetails;
+            document.getElementById("jsLimitations").textContent = jsLimitations;
         }
 
-        function redirectToDefaultBrowser() {
-            // This function constructs a URL that opens this same page in a new tab
-            window.open(window.location.href, '_blank');
-        }
-
-        document.addEventListener('visibilitychange', handleVisibilityChange);
-        window.onload = function () {
-            detectEnvironment();
-        };</script>
+        detectBrowserDetails();</script>
 </body>
 </html>
