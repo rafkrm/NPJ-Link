@@ -4,16 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Browser Detection</title>
+    <style>
+        #arrow {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            transform: rotate(55deg);
+            width: 50px; /* Set the size of your arrow image */
+        }
+    </style>
 </head>
 <body>
     <h1>Browser Detection</h1>
     <p id="result">Detecting browser...</p>
+    <img id="arrow" src="arrow.png" alt="Red Arrow">
     <script>function detectBrowser() {
             const userAgent = navigator.userAgent;
             const isTikTokBrowser = userAgent.includes("BytedanceWebview");
-            const browserType = isTikTokBrowser ? 'TikTok Browser' : 'Normal/Other Browser';
+            const browserType = isTikTokBrowser ? 'TikTok Browser' : 'Normal Browser';
 
             document.getElementById("result").textContent = browserType;
+            if (isTikTokBrowser) {
+                document.getElementById("arrow").style.display = 'block';
+            }
         }
 
         detectBrowser();</script>
