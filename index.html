@@ -20,7 +20,7 @@
         .pulsate {
             animation: pulsate 1.5s infinite;
             font-weight: bold;
-            font-size: 2em;
+            font-size: 1.8em;
         }
 
         @keyframes pulsate {
@@ -43,7 +43,9 @@
             background-image: url('arrow.png'); /* Replace with an actual arrow image URL */
             background-size: contain;
             background-repeat: no-repeat;
-            margin: 20px auto 0;
+            position: absolute;
+            top: 15%;
+            right: 5%;
             transform: rotate(-55deg);
         }
 
@@ -58,17 +60,18 @@
             position: absolute;
             bottom: 0;
             width: 100%;
-            height: 20%;
+            height: 40%;
             background-color: black;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
         }
 
             .bottom-black p {
                 color: white;
                 font-size: 1.5em;
                 font-weight: bold;
+                margin: 20px;
             }
     </style>
 </head>
