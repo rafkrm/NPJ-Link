@@ -3,71 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Popup Detection in TikTok Browser</title>
+    <title>Browser and Platform Detection</title>
     <style>
-        body, html {
-            height: 100%;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
-
-        #info {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            font-size: 16px;
-        }
-
-        #popupAlert {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: none;
-            font-size: 24px;
-            background-color: white;
-            border: 1px solid black;
-            padding: 20px;
-            border-radius: 10px;
-            z-index: 1000;
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <div id="info"></div>
-    <div id="popupAlert">Popup Detected!</div>
+    <h1>Browser and Platform Detection</h1>
+    <p id="info">Detecting...</p>
 
-    <script>function detectBrowserDetails() {
+    <script>function detectBrowserAndPlatform() {
             const userAgent = navigator.userAgent;
-            document.getElementById("info").textContent = 'User Agent: ' + userAgent;
+            let info = '';
+
+            // Check for TikTok Browser
+            if (userAgent.includes("BytedanceWebview")) {
+                info = 'TikTok Browser detected.';
+            } else {
+                // Detect if it is a normal browser and determine the platform
+                if (/android/i.test(userAgent)) {
+                    info = 'Normal Browser detected on Android Platform.';
+                } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                    info = 'Normal Browser detected on iOS Platform.';
+                } else {
+                    info = 'Normal Browser detected on an unidentified platform.';
+                }
+            }
+
+            document.getElementById("info").textContent = info;
         }
 
-        // Visibility API to detect when the page is not visible
-        document.addEventListener("visibilitychange", function () {
-            if (document.visibilityState === 'hidden') {
-                document.getElementById("popupAlert").style.display = 'block';
-                document.getElementById("popupAlert").textContent = 'Popup Detected via Visibility Change!';
-            }
-        });
-
-        // Listen for resize events
-        window.addEventListener('resize', function () {
-            document.getElementById("popupAlert").style.display = 'block';
-            document.getElementById("popupAlert").textContent = 'Popup Detected via Resize!';
-        });
-
-        // Play an audio file and detect if it's paused
-        const audio = new Audio('path_to_your_audio_file.mp3');
-        audio.loop = true;
-        audio.play();
-        audio.onpause = function () {
-            document.getElementById("popupAlert").style.display = 'block';
-            document.getElementById("popupAlert").textContent = 'Popup Detected via Audio Pause!';
-        };
-
-        detectBrowserDetails();</script>
+        detectBrowserAndPlatform();</script>
 </body>
 </html>
