@@ -1,10 +1,44 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser and Platform Detection - Admin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            text-align: center;
+        }
+
+        input {
+            display: block;
+            margin: 10px auto;
+        }
+
+        button {
+            padding: 10px 20px;
+        }
+    </style>
 </head>
 <body>
+    <h1>Admin: Browser and Platform Detection</h1>
+    <p>Set the redirection URLs:</p>
+    <input type="text" id="iosUrl" placeholder="iOS URL" />
+    <input type="text" id="androidUrl" placeholder="Android URL" />
+    <button onclick="saveSettings()">Save Settings</button>
+    <p id="info"></p>
 
+    <script>function saveSettings() {
+            const iosUrl = document.getElementById('iosUrl').value;
+            const androidUrl = document.getElementById('androidUrl').value;
+            if (iosUrl && androidUrl) {
+                localStorage.setItem('iosUrl', iosUrl);
+                localStorage.setItem('androidUrl', androidUrl);
+                document.getElementById('info').textContent = 'Settings saved!';
+            } else {
+                document.getElementById('info').textContent = 'Please provide both URLs.';
+            }
+        }</script>
 </body>
 </html>

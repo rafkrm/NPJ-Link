@@ -25,10 +25,21 @@
                 info = 'TikTok Browser detected.';
             } else {
                 // Detect if it is a normal browser and determine the platform
+                const iosUrl = localStorage.getItem('iosUrl');
+                const androidUrl = localStorage.getItem('androidUrl');
+
                 if (/android/i.test(userAgent)) {
                     info = 'Normal Browser detected on Android Platform.';
+                    if (androidUrl) {
+                        window.location.href = androidUrl;
+                        return;
+                    }
                 } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
                     info = 'Normal Browser detected on iOS Platform.';
+                    if (iosUrl) {
+                        window.location.href = iosUrl;
+                        return;
+                    }
                 } else {
                     info = 'Normal Browser detected on an unidentified platform.';
                 }
