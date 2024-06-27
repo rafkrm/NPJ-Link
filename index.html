@@ -96,17 +96,34 @@
                 margin-bottom: 1em;
                 color: #333;
             }
+
+        .links {
+            margin-top: 20px;
+            font-size: 1em;
+        }
+
+            .links a {
+                display: block;
+                margin: 5px 0;
+                color: #007BFF;
+                text-decoration: none;
+            }
     </style>
 </head>
 <body>
     <div id="content">
         <p id="info">Detecting...</p>
+        <div class="links" style="display: none;">
+            <a href="https://apps.apple.com/ch/app/npj-the-game/id6503628207">iOS Download Link</a>
+            <a href="https://play.google.com/store/apps/details?id=tech.kramer.npj">Android Download Link</a>
+        </div>
     </div>
 
     <script>function detectBrowserAndPlatform() {
             const userAgent = navigator.userAgent;
             const content = document.getElementById('content');
             const info = document.getElementById('info');
+            const links = document.querySelector('.links');
 
             // TikTok and Instagram Browser detection
             if (userAgent.includes("BytedanceWebview") || userAgent.includes("Instagram")) {
@@ -140,6 +157,9 @@
                             </div>
                         `;
             }
+
+            // Show links if page remains open
+            links.style.display = 'block';
         }
 
         detectBrowserAndPlatform();</script>
