@@ -3,37 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Browser Detection Test</title>
+    <title>TikTok Browser Detection</title>
 </head>
 <body>
-    <h1>Browser Detection Test</h1>
-    <p id="result"></p>
-    <script>function detectBrowser() {
+    <h1>TikTok Browser Detection</h1>
+    <p id="result">Checking browser...</p>
+    <script>function detectTikTokBrowser() {
             const userAgent = navigator.userAgent;
-            const results = [];
+            const isTikTokBrowser = userAgent.includes("BytedanceWebview");
 
-            // Test different detection criteria
-            if (userAgent.includes("BytedanceWebview")) {
-                results.push('Detected BytedanceWebview');
-            }
-            if (userAgent.includes("trill_")) {
-                results.push('Detected trill_');
-            }
-            if (userAgent.includes("Mobile") && userAgent.includes("Safari") && !userAgent.includes("Chrome")) {
-                results.push('Detected Mobile Safari without Chrome');
-            }
-            if (userAgent.includes("Instagram")) {
-                results.push('Detected Instagram');
-            }
-
-            // Check if any tests passed
-            if (results.length > 0) {
-                document.getElementById("result").textContent = results.join(', ');
-            } else {
-                document.getElementById("result").textContent = 'No specific browser detected';
-            }
+            document.getElementById("result").textContent = isTikTokBrowser ?
+                'TikTok Browser Detected' : 'Not TikTok Browser';
         }
 
-        detectBrowser();</script>
+        detectTikTokBrowser();</script>
 </body>
 </html>
