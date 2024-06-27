@@ -45,7 +45,7 @@
             background-size: contain;
             background-repeat: no-repeat;
             position: absolute;
-            top: 10%;
+            top: 15%;
             right: 5%;
             animation: moveArrow 1.5s infinite;
         }
@@ -56,7 +56,7 @@
             }
 
             50% {
-                transform: translate(-10px, -10px) rotate(-55deg);
+                transform: translate(-30px, -30px) rotate(-55deg);
             }
 
             100% {
@@ -70,54 +70,23 @@
             padding: 10px 20px;
             cursor: pointer;
         }
-
-        .bottom-black {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 0;
-            background-color: black;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            animation: slideUp 1s forwards;
-        }
-
-        @keyframes slideUp {
-            to {
-                height: 40%;
-            }
-        }
-
-        .bottom-black p {
-            color: white;
-            font-size: 1.5em;
-            font-weight: bold;
-            margin: 20px;
-        }
     </style>
 </head>
 <body>
     <div id="content">
-        <div class="arrow"></div>
         <p id="info">Detecting...</p>
-    </div>
-    <div id="bottom" class="bottom-black" style="display: none;">
-        <p>TAP OPEN IN BROWSER</p>
+        <div class="arrow"></div>
     </div>
 
     <script>function detectBrowserAndPlatform() {
             const userAgent = navigator.userAgent;
             const content = document.getElementById('content');
             const info = document.getElementById('info');
-            const bottom = document.getElementById('bottom');
 
             // TikTok Browser detection
             if (userAgent.includes("BytedanceWebview")) {
-                info.textContent = 'SELECT THREE DOTS';
+                info.textContent = 'TAP THREE DOTS AND SELECT "OPEN IN BROWSER"';
                 info.classList.add('pulsate');
-                bottom.style.display = 'flex';
-
                 return;
             }
 
