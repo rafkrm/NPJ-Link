@@ -8,12 +8,22 @@
             const userAgent = navigator.userAgent;
             let browserType;
 
+            // Detect Instagram In-App Browser
             if (userAgent.includes("Instagram")) {
-                browserType = "instagram";
-            } else if (userAgent.includes("TikTok")) {
-                browserType = "tiktok";
-            } else {
-                browserType = "normal";
+                browserType = "Instagram";
+            }
+            // Detect TikTok In-App Browser
+            else if (userAgent.includes("BytedanceWebview") || userAgent.includes("trill_")) {
+                // Additional checks can be added here for more layers of verification
+                if (userAgent.includes("Mobile") && userAgent.includes("Safari") && !userAgent.includes("Chrome")) {
+                    browserType = "TikTok";
+                } else {
+                    browserType = "TikTok (unconfirmed)";
+                }
+            }
+            // Default to a normal browser if none of the above conditions are met
+            else {
+                browserType = "Normal";
             }
 
             document.getElementById("browserType").textContent = browserType;
