@@ -20,32 +20,36 @@
             const userAgent = navigator.userAgent;
             let info = '';
 
-            // Check for TikTok Browser
-            if (userAgent.includes("BytedanceWebview")) {
-                info = 'TikTok Browser detected.';
-            } else {
-                // Detect if it is a normal browser and determine the platform
-                const iosUrl = localStorage.getItem('iosUrl');
-                const androidUrl = localStorage.getItem('androidUrl');
-
-                if (/android/i.test(userAgent)) {
-                    info = 'Normal Browser detected on Android Platform.';
-                    if (androidUrl) {
-                        window.location.href = androidUrl;
-                        return;
+            fetch('http://localhost:3000/redirect-urls')
+                .then(response => response.json())
+                .then(redirectUrls => {
+                    // Check for TikTok Browser
+                    if (userAgent.includes("BytedanceWebview")) {
+                        info = 'TikTok Browser detected.';
+                    } else {
+                        // Detect if it is a normal browser and determine the platform
+                        if (/android/i.test(userAgent)) {
+                            info = 'Normal Browser detected on Android Platform.';
+                            if (redirectUrls.androidUrl) {
+                                window.location.href = redirectUrls.androidUrl;
+                                return;
+                            }
+                        } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                            info = 'Normal Browser detected on iOS Platform.';
+                            if (redirectUrls.iosUrl) {
+                                window.location.href = redirectUrls.iosUrl;
+                                return;
+                            }
+                        } else {
+                            info = 'Normal Browser detected on an unidentified platform.';
+                        }
                     }
-                } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-                    info = 'Normal Browser detected on iOS Platform.';
-                    if (iosUrl) {
-                        window.location.href = iosUrl;
-                        return;
-                    }
-                } else {
-                    info = 'Normal Browser detected on an unidentified platform.';
-                }
-            }
-
-            document.getElementById("info").textContent = info;
+                    document.getElementById("info").textContent = info;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById("info").textContent = 'Error fetching redirect URLs.';
+                });
         }
 
         detectBrowserAndPlatform();</script>
