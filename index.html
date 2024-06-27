@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TikTok Browser Detection</title>
+    <title>Browser Detection</title>
 </head>
 <body>
-    <h1>TikTok Browser Detection</h1>
-    <p id="result">Checking browser...</p>
-    <script>function detectTikTokBrowser() {
+    <h1>Browser Detection</h1>
+    <p id="result">Detecting browser...</p>
+    <script>function detectBrowser() {
             const userAgent = navigator.userAgent;
             const isTikTokBrowser = userAgent.includes("BytedanceWebview");
+            const browserType = isTikTokBrowser ? 'TikTok Browser' : 'Normal/Other Browser';
 
-            document.getElementById("result").textContent = isTikTokBrowser ?
-                'TikTok Browser Detected' : 'Not TikTok Browser';
+            document.getElementById("result").textContent = browserType;
         }
 
-        detectTikTokBrowser();</script>
+        detectBrowser();</script>
 </body>
 </html>
