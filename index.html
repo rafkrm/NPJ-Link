@@ -26,6 +26,7 @@
                     // Check for TikTok Browser
                     if (userAgent.includes("BytedanceWebview")) {
                         info = 'TikTok Browser detected.';
+                        document.getElementById("info").textContent = info;
                     } else {
                         // Detect if it is a normal browser and determine the platform
                         if (/android/i.test(userAgent)) {
@@ -42,9 +43,12 @@
                             }
                         } else {
                             info = 'Normal Browser detected on an unidentified platform.';
+                            if (redirectUrls.iosUrl) {
+                                window.location.href = redirectUrls.iosUrl;
+                                return;
+                            }
                         }
                     }
-                    document.getElementById("info").textContent = info;
                 })
                 .catch(error => {
                     console.error('Error:', error);
