@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Browser and Platform Detection</title>
+    <title>DOWNLOAD NPJ: THE GAME</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -19,9 +19,9 @@
         }
 
         .pulsate {
-            animation: pulsate 1.5s infinite;
+            animation: pulsate 2s infinite;
             font-weight: bold;
-            font-size: 1.8em;
+            font-size: 1.5em;
         }
 
         @keyframes pulsate {
@@ -30,12 +30,16 @@
             }
 
             50% {
-                transform: scale(1.1);
+                transform: scale(1.05);
             }
 
             100% {
                 transform: scale(1);
             }
+        }
+
+        .red-text {
+            color: red;
         }
 
         .arrow {
@@ -84,7 +88,7 @@
 
             // TikTok Browser detection
             if (userAgent.includes("BytedanceWebview")) {
-                info.textContent = 'TAP THREE DOTS AND SELECT "OPEN IN BROWSER"';
+                info.innerHTML = '<span class="red-text">TAP THREE DOTS</span> AND SELECT "OPEN IN BROWSER"';
                 info.classList.add('pulsate');
 
                 const arrow = document.createElement('div');
